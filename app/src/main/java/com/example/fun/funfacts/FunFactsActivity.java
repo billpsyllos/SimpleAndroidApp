@@ -2,17 +2,22 @@ package com.example.fun.funfacts;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Random;
 
 
 public class FunFactsActivity extends Activity {
+
+    private FactBook mFactBook = new FactBook();
+    private ColorWheel mColorWheel = new ColorWheel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,28 +26,22 @@ public class FunFactsActivity extends Activity {
 
         // Declare our view variables and assign the views from the layout file
         final TextView factLabel = (TextView) findViewById(R.id.factTextView);
-        Button showFactButton = (Button) findViewById(R.id.ShowFactbutton);
+        final Button showFactButton = (Button) findViewById(R.id.ShowFactbutton);
+        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // The button was clicked, so update he fact label with a new fact
-                String fact  = "";
-                // Randomly select a fact
-                Random randoGenerator = new Random(); // Construct a new Random number generrator
-                int randomNumber  = randoGenerator.nextInt(3);
-                //fact = randomNumber + "";
 
-                if (randomNumber == 0){
-                    fact = "Eisai malakas";
-                }else if (randomNumber == 1){
-                    fact = "papara";
-                }else {
-                    fact = "ante geia";
-                }
+                String fact = mFactBook.getFact();
 
                 //update the label with our dynamic fact
                 factLabel.setText(fact);
+
+                int color = mColorWheel.getColor();
+                relativeLayout.setBackgroundColor(color);
+
+                showFactButton.setTextColor(color);
             }
         };
         showFactButton.setOnClickListener(listener);
